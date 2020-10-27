@@ -1,5 +1,5 @@
 # ocr_api_dj
-
+pip install pdf-tools
 
 ## API запросы:
 
