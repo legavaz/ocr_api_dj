@@ -8,8 +8,9 @@ from ot_tools import get_files, mk_dir
 
 class ocr_obj():
     """
-    Объект файл 
-    обработка объекта
+    создает объект
+    Параметр (filename:string)
+    На входе файл pdf, на выходе текстовый файл
     """
 
     def return_name(self, file_name):
