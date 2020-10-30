@@ -2,7 +2,7 @@
 import subprocess
 import tempfile
 from pdf2image import convert_from_path
-from ocr_tools.ot_tools import get_files, mk_dir
+from ocr_tools.ot_tools import get_files, mk_dir, post_obj
 
 
 def return_name(file_name):
@@ -15,12 +15,27 @@ def return_name(file_name):
 
 
 def png_to_txt(imagefile, path):
-    out_put = path + '\\' + return_name(imagefile)
-    lang = '-l rus+eng'
-    command = 'tesseract.exe {0} {1} {2}'.format(
-        imagefile, out_put, lang)
-    print('COMMAND: ', command)
-    subprocess.call(command)
+    if os.path.exists(imagefile):
+        out_put = path + '\\' + return_name(imagefile)
+        lang = '-l rus+eng'
+        command = 'tesseract.exe {0} {1} {2}'.format(
+            imagefile, out_put, lang)
+        print('COMMAND: ', command)
+        subprocess.call(command)
+
+
+def read_txt(path: str):
+    txt_files = get_files(path, ('txt',))
+    text_from_file = ''
+    for mfile in txt_files:
+        print('чтение файла:', mfile)
+        with open(mfile, encoding='utf-8') as txt_file:
+            line_txt = txt_file.readlines()
+            for line in line_txt:
+                if len(line.strip())>0:
+                    text_from_file = text_from_file+line
+
+    return text_from_file
 
 
 class OcrObj:
@@ -30,31 +45,53 @@ class OcrObj:
     На входе файл pdf, на выходе текстовый файл
     """
 
-    def __init__(self, filename):
+    def __init__(self, filename, temp_path):
         self.filename = filename
+        self.temp_path = temp_path
         self.short = return_name(filename)
+        self.textField = ''
+        self.ocr()
 
-    def ocr(self, path):
+    def ocr(self):
+        """
+
+        :return:
+        """
         images = convert_from_path(self.filename)
         i = 0
         f_n = self.short
+        path_pack = self.temp_path + '\\' + self.short
+        if mk_dir(path_pack, False):
+            for target_list in images:
+                i += i
+                f_name = path_pack + '\\' + f_n + '_{0}.png'.format(i)
+                target_list.save(f_name)
 
-        for target_list in images:
-            i = i + 1
-            f_name = path + '\\' + f_n + '_{0}.png'.format(i)
-            target_list.save(f_name)
-            png_to_txt(f_name, path)
+                # анализ пакета файлов
+                png_to_txt(f_name, path_pack)
+                self.textField = read_txt(path_pack)
+                post_obj(self)
+
+def main_func():
+    DIR_NAME = r'\\l-pack\net\Сканер\OFF2-13 IT1C\Baldina'
+    temp_dir = r'D:\py\ocr_dj_api\project_api_ocr\ocr_tools\temp'
+    files = get_files(DIR_NAME)
+    print('найдено файлов для анализа:', len(files))
+    for file in files:
+        with tempfile.TemporaryDirectory() as temp_path:
+            print(temp_path)
+            # воспользуемся временной папкой
+            m = OcrObj(filename=file, temp_path=temp_path)
+
+            # по старому
+            # m = OcrObj(filename=file, temp_path=temp_dir)
+            # print(m.textField)
 
 
-DIR_NAME = r'\\l-pack\net\Сканер\OFF2-13 IT1C\Baldina'
-files = get_files(DIR_NAME)
-temp_dir = r'\temp'
-mk_dir(temp_dir)
-for file in files:
-    with tempfile.TemporaryDirectory() as temp_path:
-        # print(temp_path)
-        m = OcrObj(file)
-        # m.ocr(temp_path)
-        m.ocr(temp_dir)
+def testing():
+    print('+++')
+    m = read_txt(r'D:\py\ocr_dj_api\project_api_ocr\ocr_tools\temp\doc02208820201026115605')
+    print(m)
 
-# ocr(file_in, out_path)
+
+main_func()
