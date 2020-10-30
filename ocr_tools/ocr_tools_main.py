@@ -3,7 +3,7 @@ import os
 import subprocess
 import tempfile
 from pdf2image import convert_from_path
-from ot_tools import get_files, mk_dir
+from .ot_tools import get_files, mk_dir
 
 
 class ocr_obj():
