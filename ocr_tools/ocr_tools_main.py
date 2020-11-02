@@ -32,8 +32,8 @@ def read_txt(path: str):
         with open(mfile, encoding='utf-8') as txt_file:
             line_txt = txt_file.readlines()
             for line in line_txt:
-                if len(line.strip())>0:
-                    text_from_file = text_from_file+line
+                if len(line.strip()) > 0:
+                    text_from_file = text_from_file + line
 
     return text_from_file
 
@@ -72,14 +72,15 @@ class OcrObj:
                 self.textField = read_txt(path_pack)
                 post_obj(self)
 
+
 def main_func():
-    DIR_NAME = r'\\l-pack\net\Сканер\OFF2-13 IT1C\Baldina'
-    temp_dir = r'D:\py\ocr_dj_api\project_api_ocr\ocr_tools\temp'
-    files = get_files(DIR_NAME)
+    scan_path_dir = r'\\l-pack\net\Сканер\1C\4825047455\30102020'
+    # temp_dir = r'D:\py\ocr_dj_api\project_api_ocr\ocr_tools\temp'
+    files = get_files(scan_path_dir)
     print('найдено файлов для анализа:', len(files))
     for file in files:
         with tempfile.TemporaryDirectory() as temp_path:
-            print(temp_path)
+            # print(temp_path)
             # воспользуемся временной папкой
             m = OcrObj(filename=file, temp_path=temp_path)
 
