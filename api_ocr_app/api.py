@@ -10,3 +10,16 @@ class Source_tableViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = Source_tableSerializer
+
+
+class TestView(viewsets.ModelViewSet):
+    queryset = [
+        {
+            'new':'1',
+        }
+                ]
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = Source_tableSerializer
+    print('debug api.py')
