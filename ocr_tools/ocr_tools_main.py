@@ -63,14 +63,15 @@ class OcrObj:
         path_pack = self.temp_path + '\\' + self.short
         if mk_dir(path_pack, False):
             for target_list in images:
-                i += i
+                i = i+1
                 f_name = path_pack + '\\' + f_n + '_{0}.png'.format(i)
                 target_list.save(f_name)
 
                 # анализ пакета файлов
                 png_to_txt(f_name, path_pack)
-                self.textField = read_txt(path_pack)
-                post_obj(self)
+
+            self.textField = read_txt(path_pack)
+            post_obj(self)
 
 
 def main_func():
