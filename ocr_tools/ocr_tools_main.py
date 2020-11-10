@@ -50,9 +50,9 @@ class OcrObj:
         self.temp_path = temp_path
         self.short = return_name(filename)
         self.textField = ''
-        self.ocr()
+        self.ocr_post()
 
-    def ocr(self):
+    def ocr_post(self):
         """
 
         :return:

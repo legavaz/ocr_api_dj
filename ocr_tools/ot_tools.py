@@ -15,7 +15,6 @@ def get_files(m_DIR_NAME: str, ext=('pdf', 'jpg', 'png')):
     return files
 
 
-
 def mk_dir(m_path: str, current: True):
     """
 
@@ -43,10 +42,15 @@ def mk_dir(m_path: str, current: True):
 
 
 def post_obj(obj):
-    url = 'http://127.0.0.1:8000/api/api/Source_table/'
-    data_set = {'file_name_chr': obj.filename,
-                'structure_txt': obj.textField,
-                }
+    url = 'http://127.0.0.1:8000/api/file_add/'
+    #  data_set = """{
+    #             "file":{"file_name_chr":"{0}"},
+    #              "source" :{"structure_txt" :""}
+    #              }""".format(obj.filename) //, obj.textField)
+    #
+    # file_name = {"file_name_chr": obj.filename}
+    # structure_txt = {"structure_txt": obj.textField}
+    data_set = {"file": obj.filename, "source": obj.textField, }
 
     resp = requests.post(url, data=data_set)
     print('api status:', resp)
@@ -61,6 +65,7 @@ class TestObj:
                 lajdfaslkdfj
                 """
 
+
 def test_request():
     """
     Тестирование апи запросов на базе произвользого объекта
@@ -69,14 +74,15 @@ def test_request():
     a = TestObj
     post_obj(a)
 
+
 def test_getFiles(dir_path: str):
     get_files(dir_path)
 
+
 if __name__ == "__main__":
     print('sub function')
-    m = get_files(r'\\l-pack\net\Сканер\1C\4825047455\30102020')
-    print('Найдено:', len(m))
+    # m = get_files(r'\\l-pack\net\Сканер\1C\4825047455\30102020')
+    # print('Найдено:', len(m))
 
     # 02-11-2020
-    # test_request()
-
+    test_request()

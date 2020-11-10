@@ -1,12 +1,17 @@
 from django.contrib import admin
-from .models import Source_table
+from .models import FileName, SourceText
 
 
-class Source_table_admin(admin.ModelAdmin):
-    list_display = ('id', 'file_name_chr','add_date', 'structure_txt', 'analize_bool')
+@admin.register(FileName)
+class FileNameAdmin(admin.ModelAdmin):
+    list_display = ('id', 'file_name_chr', 'add_date', 'source_oto', 'analize_bool')
     list_display_links = ('id', 'file_name_chr')
     list_filter = ('analize_bool',)
-    
-    search_fields = ('id', 'file_name_chr', 'structure_txt')
 
-admin.site.register(Source_table,Source_table_admin)
+    search_fields = ('id', 'file_name_chr')
+
+
+@admin.register(SourceText)
+class SourceTextAdmin(admin.ModelAdmin):
+    """Рейтинг фильма"""
+    list_display = ("id", )

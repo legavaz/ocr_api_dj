@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'project_api_ocr.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_db',
+        'NAME': 'ocr_db',
         'USER' : 'postgres',
         'PASSWORD' : '12345',
         'HOST' : '127.0.0.1',
