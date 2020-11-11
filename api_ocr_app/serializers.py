@@ -43,6 +43,7 @@ class FileNameCreateSerializer(serializers.ModelSerializer):
         # file_set = FileName.objects.update_or_create(
         file_set = FileName.objects.create(
             file_name_chr=validated_data.get('file_name_chr', None),
+            file_name_short_chr=validated_data.get('file_name_short_chr', None),
             source_oto=validated_data.get('source_oto', None)
         )
         print('validated_data.get', validated_data.get('source_oto', None), type(validated_data.get('source_oto', None)))

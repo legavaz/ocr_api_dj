@@ -40,16 +40,24 @@ def read_txt(path: str):
 
 class OcrObj:
     """
+    filename = Полное имя файла
+    temp_path = Временная директория хранения файлов
+    short = Короткое имя файла
+    textField = Результат текст полученный из изображения
+    del_path_half = Удалить часть пути из filename при передачи данных api
+
     создает объект
     Параметр (filename:string)
     На входе файл pdf, на выходе текстовый файл
     """
 
-    def __init__(self, filename, temp_path):
+    def __init__(self, filename, temp_path,del_path_half=''):
         self.filename = filename
         self.temp_path = temp_path
         self.short = return_name(filename)
         self.textField = ''
+        self.del_path_half = del_path_half
+
         self.ocr_post()
 
     def ocr_post(self):
@@ -75,7 +83,9 @@ class OcrObj:
 
 
 def main_func():
+
     scan_path_dir = r'\\l-pack\net\Сканер\1C\4825047455\30102020'
+    del_path_half = r"\\l-pack\net\Сканер"
     # temp_dir = r'D:\py\ocr_dj_api\project_api_ocr\ocr_tools\temp'
     files = get_files(scan_path_dir)
     print('найдено файлов для анализа:', len(files))
@@ -83,7 +93,7 @@ def main_func():
         with tempfile.TemporaryDirectory() as temp_path:
             # print(temp_path)
             # воспользуемся временной папкой
-            m = OcrObj(filename=file, temp_path=temp_path)
+            m = OcrObj(filename=file, temp_path=temp_path,del_path_half=del_path_half)
 
             # по старому
             # m = OcrObj(filename=file, temp_path=temp_dir)

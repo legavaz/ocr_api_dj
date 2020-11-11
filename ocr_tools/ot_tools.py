@@ -1,5 +1,9 @@
 import os
-import requests, json
+import requests
+
+
+def analiz_func(name_vol, volume):
+    print(name_vol, volume, type(volume))
 
 
 def get_files(m_DIR_NAME: str, ext=('pdf', 'jpg', 'png')):
@@ -43,27 +47,27 @@ def mk_dir(m_path: str, current: True):
 
 def post_obj(obj):
     url = 'http://127.0.0.1:8000/api/file_add/'
-    #  data_set = """{
-    #             "file":{"file_name_chr":"{0}"},
-    #              "source" :{"structure_txt" :""}
-    #              }""".format(obj.filename) //, obj.textField)
-    #
-    # file_name = {"file_name_chr": obj.filename}
-    # structure_txt = {"structure_txt": obj.textField}
-    data_set = {"file": obj.filename, "source": obj.textField, }
+
+    if obj.del_path_half == '':
+        data_set = {"file": obj.filename, "source": obj.textField, "short": obj.short}
+    else:
+        data_set = {"file": obj.filename.replace(obj.del_path_half, ''), "source": obj.textField, "short": obj.short}
 
     resp = requests.post(url, data=data_set)
     print('api status:', resp)
 
 
 class TestObj:
-    filename = 'test1'
-    textField = """
-                test1, new text
-                sdlfljlsdkfjsf
-                adlfkajdsfasdlfkjaldfj
-                lajdfaslkdfj
-                """
+    filename = r'\\l-pack\net\Сканер\1C\4825047455\30102020\5047106900\doc02733320201030114838.pdf'
+    short = 'short_name'
+    del_path_half = r'\\l-pack\net\Сканер\1C'
+
+    textField = """Прежде всего, внедрение современных методик однозначно определяет каждого участника как способного 
+    принимать собственные решения касаемо анализа существующих паттернов поведения. А ещё элементы политического 
+    процесса представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть смешаны с 
+    не уникальными данными до степени совершенной неузнаваемости, из-за чего возрастает их статус бесполезности. С 
+    учётом сложившейся международной обстановки, базовый вектор развития в значительной степени обусловливает 
+    важность благоприятных перспектив. """
 
 
 def test_request():

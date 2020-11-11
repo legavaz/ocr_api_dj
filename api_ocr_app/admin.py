@@ -14,4 +14,4 @@ class FileNameAdmin(admin.ModelAdmin):
 @admin.register(SourceText)
 class SourceTextAdmin(admin.ModelAdmin):
     """Рейтинг фильма"""
-    list_display = ("id", )
+    list_display = ('id', 'add_date', 'structure_txt')
