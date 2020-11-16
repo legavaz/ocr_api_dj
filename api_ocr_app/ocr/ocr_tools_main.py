@@ -2,7 +2,7 @@
 import subprocess
 import tempfile
 from pdf2image import convert_from_path
-from ocr_tools.ot_tools import get_files, mk_dir, post_obj
+from api_ocr_app.ocr.ot_tools import get_files, mk_dir, post_obj,request_api_get
 
 
 def return_name(file_name):
@@ -55,10 +55,16 @@ class OcrObj:
         self.filename = filename
         self.temp_path = temp_path
         self.short = return_name(filename)
-        self.textField = ''
-        self.del_path_half = del_path_half
 
-        self.ocr_post()
+        # Проверка что запись существует в бд
+        r_data = request_api_get(filtr_val=self.short)
+
+        if len(r_data) == 0:
+            self.textField = ''
+            self.del_path_half = del_path_half
+            self.ocr_post()
+        else:
+            print(self.short, 'существует')
 
     def ocr_post(self):
         """

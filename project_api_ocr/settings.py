@@ -94,6 +94,7 @@ REST_FRAMEWORK = {
     )
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -118,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -131,3 +132,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# ИНТЕГРАЦИЯ С 1С
+# Получение списка всех контрагентов
+# http://localhost/danv_copy_lpack_buh3/hs/Customer/all
+URL_1C_API = 'http://localhost/danv_copy_lpack_buh3/'
+LOGIN_1C = '1CV8'
+PASSWORD_1C = ''

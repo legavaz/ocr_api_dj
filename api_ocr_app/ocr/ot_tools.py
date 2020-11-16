@@ -1,3 +1,4 @@
+from project_api_ocr import settings
 import os
 import requests
 
@@ -6,7 +7,7 @@ def analiz_func(name_vol, volume):
     print(name_vol, volume, type(volume))
 
 
-def get_files(m_DIR_NAME: str, ext=('pdf', 'jpg', 'png')):
+def get_files(m_DIR_NAME:str, ext=('pdf', 'jpg', 'png')):
     files = []
     with os.scandir(m_DIR_NAME) as listFiles:
         for file in listFiles:
@@ -54,7 +55,31 @@ def post_obj(obj):
         data_set = {"file": obj.filename.replace(obj.del_path_half, ''), "source": obj.textField, "short": obj.short}
 
     resp = requests.post(url, data=data_set)
-    print('api status:', resp)
+
+    if settings.DEBUG:
+        print('api status:', resp)
+
+
+def request_api_get(id=False, filtr_val=None):
+    if id:
+        url = 'http://127.0.0.1:8000/api/files/{0}/'.format(filtr_val)
+    else:
+        url = 'http://127.0.0.1:8000/api/files/?file_name={0}'.format(filtr_val)
+
+    if settings.DEBUG:
+        print(url)
+
+    return requests.get(url).json()
+
+
+def request_api_1c(param:str):
+    url = settings.URL_1C_API + param
+    req = requests.get(url, auth=(settings.LOGIN_1C, settings.PASSWORD_1C))
+
+    if settings.DEBUG:
+        print(url)
+
+    return req.json()
 
 
 class TestObj:
@@ -89,4 +114,11 @@ if __name__ == "__main__":
     # print('Найдено:', len(m))
 
     # 02-11-2020
-    test_request()
+    # test_request()
+
+    # 11-11-20 тестирование существование записей
+    resp = request_api_get(filtr_val='doc02732820201030102209')
+    print(resp)
+
+    resp = request_api_get(filtr_val='66',id=True)
+    print(resp)

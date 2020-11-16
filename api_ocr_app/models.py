@@ -14,6 +14,24 @@ class SourceText(models.Model):
     def __str__(self):
         return self.structure_txt
 
+class Customers(models.Model):
+    """ Таблица контрагентов
+     -поля (Имя, ИНН, КПП)
+     """
+    name = models.CharField('Наименование', max_length=100)
+    inn = models.CharField('Наименование', max_length=50)
+    kpp = models.CharField('Наименование', max_length=9, blank=True)
+    guid = models.CharField('Идентификатор', max_length=60)
+
+
+class Nomenklatura(models.Model):
+    """ Таблица Номенклатура
+     -поля (Имя, ИНН, КПП)
+     """
+    name = models.CharField('Наименование', max_length=150)
+    guid = models.CharField('Идентификатор', max_length=60)
+
+
 class FileName(models.Model):
     """ Таблица файлов, дата загрузки и признак анализа"""
 
